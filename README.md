@@ -98,8 +98,16 @@ Example Predictions:
 
 Input Image	Predicted Landmark
 
-Eiffel Tower
-Taj Mahal
+< Eiffel Tower
+
+< Taj Mahal
+
+👩‍💻 Author
+
+Disha Chakraborty
+B.Tech in Computer Science (AI & ML)
+📍 Kolkata, India
+🌐 GitHub | LinkedIn
 
 
 
