@@ -86,15 +86,20 @@ python src/train_model.py
 python src/predict.py --image "data/test/sample.jpg"
 📊 Results
 Metric	Result
+
+
 Training Accuracy	~92%
+
 Validation Accuracy	~88%
+
 Model File	models/landmark_model.h5
 
 Example Predictions:
 
 Input Image	Predicted Landmark
+
 Eiffel Tower
 Taj Mahal
 
-## 🧩 Project Structure
+
 
