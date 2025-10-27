@@ -1,0 +1,14 @@
+Install dependencies :
+
+pip install -r requirements.txt
+
+
+(Optional) Download dataset from Kaggle or link it here
+Run training: 
+
+python src/train_model.py
+
+
+Test prediction:
+
+python src/predict.py --image "sample.jpg"
