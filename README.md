@@ -4,6 +4,15 @@ This project detects and classifies famous landmarks from images using **Convolu
 It was inspired by [AmanxAI’s tutorial](https://amanxai.com/2020/11/08/landmark-detection-with-machine-learning/) and extended with a custom modular codebase, improved data preprocessing, and visualization tools.
 
 ---
+📂 Dataset
+
+- Source: Publicly available landmark image datasets
+
+- Images represent multiple landmark classes
+
+- Dataset split into training and evaluation subsets
+
+---
 
 ## 📸 Project Overview
 
@@ -101,6 +110,14 @@ Input Image	Predicted Landmark
 < Eiffel Tower
 
 < Taj Mahal
+---
+⚠️ Limitations
+
+- Limited dataset diversity
+- Sensitive to lighting and viewpoint variations
+- No cross-dataset evaluation
+
+---
 
 👩‍💻 Author
 
