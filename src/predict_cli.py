@@ -1,3 +1,9 @@
+"""
+CLI-based prediction script for testing the trained landmark model.
+This script is not used in the production API.
+"""
+
+
 import tensorflow as tf
 import numpy as np
 import cv2
