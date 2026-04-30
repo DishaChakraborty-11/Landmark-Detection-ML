@@ -1,54 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landmark AI Detector</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+    <title>Universal Landmark AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:system-ui;background:#667eea;color:white;min-height:100vh;padding:20px;}
+        .container{max-width:800px;margin:0 auto;}
+        header{text-align:center;padding:20px 0;}
+        #uploadZone{border:3px dashed white;border-radius:20px;padding:60px 20px;text-align:center;cursor:pointer;margin:40px 0;transition:all 0.3s;}
+        #uploadZone:hover{background:rgba(255,255,255,0.1);}
+        #uploadZone i{font-size:4em;display:block;margin-bottom:20px;}
+        #detectionResult{display:none;background:white;color:#333;padding:30px;margin:20px 0;border-radius:20px;}
+        #detectedImage{max-width:300px;border-radius:15px;}
+        .result-grid{display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:start;}
+        #loading{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:white;padding:40px;border-radius:15px;text-align:center;z-index:999;}
+        #loading.show{display:block;}
+        @media(max-width:600px){.result-grid{grid-template-columns:1fr;}}
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1><i class="fas fa-robot"></i> Landmark AI</h1>
-            <div class="controls">
-                <input type="file" id="imageUpload" accept="image/*" hidden>
-                <label for="imageUpload" class="upload-btn">
-                    <i class="fas fa-camera"></i> Upload Image
-                </label>
-                <input type="text" id="searchInput" placeholder="Search landmarks...">
-            </div>
+    <div class="container">
+        <header>
+            <h1>🌍 Universal Landmark Detector</h1>
+            <p>Upload ANY landmark photo - AI detects instantly!</p>
         </div>
-    </header>
-
-    <div class="detection-result" id="detectionResult" style="display:none;">
-        <div class="container">
-            <h2>🎉 AI Detected!</h2>
-            <div class="detection-card">
+        
+        <div id="uploadZone">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h2>Click or drag photo here</h2>
+            <p>Works with 5000+ landmarks worldwide</p>
+            <input type="file" id="imageUpload" accept="image/*" style="display:none;">
+        </div>
+        
+        <div id="detectionResult">
+            <h2>🎉 AI Detection Complete!</h2>
+            <div class="result-grid">
                 <img id="detectedImage">
                 <div>
                     <h3 id="detectedName"></h3>
                     <div id="detectionDetails"></div>
+                    <p><small>Powered by TensorFlow.js - No backend needed!</small></p>
                 </div>
             </div>
         </div>
     </div>
-
-    <main class="container">
-        <section class="upload-zone" id="uploadZone">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <h2>Drag photo or click to upload</h2>
-            <p>AI will detect landmark instantly!</p>
-        </section>
-        <section id="landmarksGrid">
-            <h2>Popular Landmarks</h2>
-        </section>
-    </main>
-
-    <div class="loading" id="loading">
-        <i class="fas fa-spinner fa-spin"></i> AI Analyzing...
+    
+    <div id="loading">
+        <i class="fas fa-brain fa-spin" style="font-size:3em;color:#48bb78;"></i>
+        <div>AI Analyzing your photo...</div>
     </div>
 
     <script src="script.js"></script>
