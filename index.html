@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landmark Explorer AI</title>
-    
-    <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
-    <!-- TensorFlow.js - REQUIRED for script.js to work -->
+    <!-- TensorFlow.js and MobileNet AI Model -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@latest"></script>
 </head>
@@ -19,15 +16,10 @@
         <div class="container">
             <h1><i class="fas fa-landmark"></i> Landmark Explorer</h1>
             <div class="search-upload-container">
-                <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Search landmarks...">
-                    <button id="searchBtn"><i class="fas fa-search"></i></button>
-                </div>
                 <div class="upload-container">
-                    <!-- Hidden file input -->
                     <input type="file" id="imageUpload" accept="image/*" style="display:none">
                     <label for="imageUpload" class="upload-btn">
-                        <i class="fas fa-camera"></i> Upload Image
+                        <i class="fas fa-camera"></i> Upload Landmark
                     </label>
                 </div>
             </div>
@@ -35,59 +27,36 @@
     </header>
 
     <main class="container">
-        <!-- Detection Result Section (Hidden by default) -->
+        <!-- Detection Result Section -->
         <section id="detectionResult" class="detection-result" style="display: none;">
             <div class="detection-card">
-                <img id="detectedImage" src="" alt="Detected Landmark" class="detected-image">
+                <img id="detectedImage" src="" alt="Landmark" class="detected-image">
                 <div class="detection-info">
-                    <h3 id="detectedName">Landmark Name</h3>
-                    <div id="detectionDetails">
-                        <!-- Confidence and details injected by JS -->
-                    </div>
+                    <h3 id="detectedName">Processing...</h3>
+                    <div id="detectionDetails"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Hero / Upload Zone -->
+        <!-- Upload Hero -->
         <section class="hero-section">
             <div class="hero-content">
-                <h2>Discover the World with AI</h2>
-                <p>Upload a photo of any monument to get instant information.</p>
+                <h2>AI Global Tour Guide</h2>
+                <p>Identify any monument and get travel tips instantly.</p>
                 <div id="uploadZone" class="upload-zone">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Drag & Drop or Click to Upload</p>
-                    <small style="color: rgba(255,255,255,0.7)">Supported: JPG, PNG</small>
+                    <p id="statusText">Waiting for AI to load...</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Chatbot UI -->
-    <button class="chatbot-toggle" id="chatToggle">
-        <i class="fas fa-comment-dots"></i>
-    </button>
-    
-    <div class="chatbot-container" id="chatbotContainer">
-        <div class="chatbot-header">
-            <span>AI Travel Assistant</span>
-            <button class="close-chat" id="closeChat">&times;</button>
-        </div>
-        <div class="chatbot-messages" id="chatMessages">
-            <div class="message user-message">Hi! How can I help you today?</div>
-        </div>
-        <div class="chatbot-input">
-            <input type="text" id="chatInput" placeholder="Ask about a place...">
-            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
     <!-- Loading Overlay -->
     <div id="loading" class="loading">
         <i class="fas fa-spinner fa-spin"></i>
-        <div>AI is analyzing the landmark...</div>
+        <div>AI is scanning the landmark...</div>
     </div>
 
-    <!-- Your Logic -->
     <script src="script.js"></script>
 </body>
 </html>
