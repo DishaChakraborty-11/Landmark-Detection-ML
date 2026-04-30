@@ -435,3 +435,39 @@ header h1 i {
         font-size: 2rem;
     }
 }
+
+
+/* Paste this after your existing CSS */
+.loading {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255,255,255,0.9);
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.loading.show { display: flex; }
+
+.result-section {
+    margin-top: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.result-section h4 {
+    color: #667eea;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.detection-card {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+@media (max-width: 768px) {
+    .detection-card { flex-direction: column; }
+}
