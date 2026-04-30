@@ -38,10 +38,11 @@
 ```
 
 ## Screenshots 
-<img width="1920" height="1080" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/d52e19fb-0dee-47de-859f-2fd2d78685ae" />
-<img width="1920" height="1080" alt="Screenshot (52)" src="https://github.com/user-attachments/assets/1b4b4efb-8719-47f9-bf08-d87a000cce7c" />
-<img width="1920" height="1080" alt="Screenshot (53)" src="https://github.com/user-attachments/assets/6d01d874-4238-49cc-9556-f2e8a69416e2" />
-<img width="1920" height="1080" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/e1941538-7d41-41aa-acd0-75943b88f77c" />
+<img width="1917" height="922" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/a9d8862d-f194-42f8-9b25-9f5de16cd05b" />
+<img width="1920" height="902" alt="Screenshot (52)" src="https://github.com/user-attachments/assets/be9332b8-3186-428a-a647-1695f8822933" />
+<img width="1916" height="906" alt="Screenshot (53)" src="https://github.com/user-attachments/assets/2e884a48-888a-469d-842a-d537629c3d12" />
+<img width="1920" height="931" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/aac0884d-ace2-4b51-9f05-0c7c383e05a8" />
+
 
 ##⚠️ Limitations & Future Improvements
 1. Model Accuracy & Training Data
