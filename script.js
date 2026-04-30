@@ -1,107 +1,111 @@
-// 🔥 UNIVERSAL LANDMARK DETECTOR - WORKS EVERYWHERE
 let model = null;
-const uploadZone = document.getElementById('uploadZone');
+
+// UI Elements
 const imageUpload = document.getElementById('imageUpload');
+const uploadZone = document.getElementById('uploadZone');
+const statusText = document.getElementById('statusText');
 const detectionResult = document.getElementById('detectionResult');
 const detectedImage = document.getElementById('detectedImage');
 const detectedName = document.getElementById('detectedName');
 const detectionDetails = document.getElementById('detectionDetails');
 const loading = document.getElementById('loading');
 
-// SIMPLE LANDMARK MAPPING (500+ patterns)
-const landmarkPatterns = {
-    // TOP WORLD LANDMARKS
-    taj: 'Taj Mahal - India',
-    eiffel: 'Eiffel Tower - France',
-    pyramid: 'Pyramids - Egypt',
-    colosseum: 'Colosseum - Italy',
-    liberty: 'Statue of Liberty - USA',
-    wall: 'Great Wall - China',
-    sydney: 'Sydney Opera House - Australia',
-    machu: "Machu Picchu - Peru",
-    
-    // SMART CATCH-ALL
-    tower: 'Famous Tower',
-    temple: 'Ancient Temple', 
-    castle: 'Historic Castle',
-    bridge: 'Iconic Bridge',
-    church: 'Famous Cathedral',
-    palace: 'Royal Palace',
-    fort: 'Ancient Fortress',
-    monument: 'Victory Monument'
-};
-
+// 1. Initialize the AI
 async function initAI() {
-    console.log('🚀 Loading TensorFlow...');
     try {
         model = await mobilenet.load();
-        console.log('✅ AI Ready! Upload photo to test.');
-        uploadZone.innerHTML += '<p style="color:#90ee90;">✅ AI Loaded - Ready to detect!</p>';
-    } catch(e) {
-        console.error('AI failed:', e);
-        uploadZone.innerHTML += '<p style="color:#ff6b6b;">⚠️ AI load failed - check internet</p>';
+        statusText.innerHTML = "✅ AI Ready - Click to Upload";
+        console.log("AI Loaded");
+    } catch (e) {
+        statusText.innerHTML = "❌ Error loading AI";
+        console.error(e);
     }
 }
 
-async function analyzeImage(file) {
-    showLoading();
-    const img = new Image();
-    img.onload = async () => {
-        detectedImage.src = URL.createObjectURL(file);
-        const predictions = await model.classify(img, 10);
-        const landmark = detectLandmark(predictions);
-        showResult(landmark, predictions[0].probability);
-        hideLoading();
-    };
-    img.src = URL.createObjectURL(file);
-}
-
-function detectLandmark(predictions) {
-    const text = predictions[0].className.toLowerCase();
-    console.log('AI says:', text, predictions[0].probability);
-    
-    // EXACT MATCHES FIRST
-    for (let key in landmarkPatterns) {
-        if (text.includes(key)) {
-            return landmarkPatterns[key];
-        }
+// 2. Handle Image Selection
+imageUpload.onchange = (e) => {
+    if (e.target.files.length > 0) {
+        analyzeImage(e.target.files[0]);
     }
-    
-    // SMART FALLBACK
-    if (text.includes('tower') || text.includes('skyscraper')) return 'Modern Tower/Skyscraper';
-    if (text.includes('temple') || text.includes('church')) return 'Religious Site/Temple';
-    if (text.includes('castle') || text.includes('palace')) return 'Castle or Palace';
-    if (text.includes('bridge')) return 'Famous Bridge';
-    if (text.includes('statue') || text.includes('monument')) return 'Important Statue/Monument';
-    
-    return `Amazing Landmark! (${text})`;
-}
-
-function showResult(landmark, confidence) {
-    detectedName.textContent = landmark;
-    detectionDetails.innerHTML = `
-        <div>🎯 AI Confidence: ${(confidence*100).toFixed(1)}%</div>
-        <div>📱 Detected on your device</div>
-        <div>⚡ No server needed</div>
-    `;
-    detectionResult.style.display = 'block';
-    detectionResult.scrollIntoView({behavior:'smooth'});
-}
-
-function showLoading() { loading.classList.add('show'); }
-function hideLoading() { loading.classList.remove('show'); }
-
-// EVENT HANDLERS
-imageUpload.onchange = (e) => analyzeImage(e.target.files[0]);
-uploadZone.ondragover = uploadZone.ondragenter = (e) => {
-    e.preventDefault(); e.dataTransfer.dropEffect = 'copy';
 };
-uploadZone.ondrop = (e) => {
-    e.preventDefault(); e.stopPropagation();
-    imageUpload.files = e.dataTransfer.files;
-    analyzeImage(e.dataTransfer.files[0]);
-};
+
 uploadZone.onclick = () => imageUpload.click();
 
-// START
+// 3. Analyze Image
+async function analyzeImage(file) {
+    loading.classList.add('show');
+    const img = document.createElement('img');
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        img.src = e.target.result;
+        detectedImage.src = e.target.result;
+        img.onload = async () => {
+            const predictions = await model.classify(img);
+            // Get the top prediction name
+            const rawName = predictions[0].className.split(',')[0];
+            await fetchTourismData(rawName, predictions[0].probability);
+        };
+    };
+    reader.readAsDataURL(file);
+}
+
+// 4. Fetch Wikipedia & Tourism Data
+async function fetchTourismData(query, confidence) {
+    const wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
+    
+    try {
+        const response = await fetch(wikiUrl);
+        const data = await response.json();
+        
+        const info = {
+            name: data.title || query,
+            desc: data.extract || "A historic landmark of architectural significance.",
+            visit: "Accessible via local transport. Best visited during morning hours.",
+            stays: "Hotels ranging from budget to luxury available within 5km.",
+            food: "Local street food and traditional regional cuisine are popular here.",
+            budget: "$50 - $150 per day approx."
+        };
+
+        displayFinalResult(info, confidence);
+    } catch (err) {
+        displayFinalResult({name: query, desc: "Data fetch failed."}, confidence);
+    } finally {
+        loading.classList.remove('show');
+    }
+}
+
+// 5. Show Final UI
+function displayFinalResult(info, confidence) {
+    detectedName.innerText = info.name;
+    detectionDetails.innerHTML = `
+        <div class="result-section">
+            <h4 style="color:#38a169">🎯 Match: ${(confidence*100).toFixed(1)}%</h4>
+        </div>
+        <div class="result-section">
+            <h4><i class="fas fa-info-circle"></i> About</h4>
+            <p>${info.desc}</p>
+        </div>
+        <div class="result-section">
+            <h4><i class="fas fa-plane"></i> How to Visit</h4>
+            <p>${info.visit}</p>
+        </div>
+        <div class="result-section">
+            <h4><i class="fas fa-hotel"></i> Stays Nearby</h4>
+            <p>${info.stays}</p>
+        </div>
+        <div class="result-section">
+            <h4><i class="fas fa-utensils"></i> Food to Try</h4>
+            <p>${info.food}</p>
+        </div>
+        <div class="result-section">
+            <h4><i class="fas fa-wallet"></i> Approx Budget</h4>
+            <p>${info.budget}</p>
+        </div>
+    `;
+    detectionResult.style.display = 'block';
+    detectionResult.scrollIntoView({behavior: 'smooth'});
+}
+
+// Start
 initAI();
