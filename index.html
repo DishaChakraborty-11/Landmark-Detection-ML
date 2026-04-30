@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landmark Explorer - AI Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- TensorFlow.js for ML -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-landmark"></i> Landmark Explorer AI</h1>
+            <div class="search-upload-container">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search landmarks...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="upload-container">
+                    <input type="file" id="imageUpload" accept="image/*" hidden>
+                    <label for="imageUpload" class="upload-btn">
+                        <i class="fas fa-camera"></i> Upload Photo
+                    </label>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Detection Result -->
+    <div class="detection-result" id="detectionResult" style="display: none;">
+        <div class="container">
+            <h2><i class="fas fa-magic"></i> AI Detected Landmark</h2>
+            <div class="detection-card">
+                <img id="detectedImage" class="detected-image">
+                <div class="detection-info">
+                    <h3 id="detectedName"></h3>
+                    <div id="detectionDetails"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle -->
+    <button class="chatbot-toggle" id="chatToggle">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <span>AI Landmark Assistant</span>
+            <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="message bot-message">
+                Upload a photo or ask about landmarks! I can detect Taj Mahal, Eiffel Tower, Great Wall & more! 📸✨
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Ask about detected landmark...">
+            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>Upload Photo for AI Detection</h2>
+                <p>Upload any landmark photo - AI will detect it instantly!</p>
+                <div class="upload-zone" onclick="document.getElementById('imageUpload').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to upload or drag & drop image</p>
+                    <small>Supports JPG, PNG (Max 10MB)</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Landmarks -->
+        <section class="landmarks-grid" id="landmarksGrid">
+            <h2>Popular Landmarks</h2>
+        </section>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <div>AI Analyzing Image...</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
