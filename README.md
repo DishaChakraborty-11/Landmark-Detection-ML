@@ -1,130 +1,76 @@
-# 🏛️ Landmark Detection using Convolutional Neural Networks (CNN)
+# 🌍 TravelBud: AI-Powered Landmark Explorer
 
-This project detects and classifies famous landmarks from images using **Convolutional Neural Networks (CNN)**.  
-It was inspired by [AmanxAI’s tutorial](https://amanxai.com/2020/11/08/landmark-detection-with-machine-learning/) and extended with a custom modular codebase, improved data preprocessing, and visualization tools.
+**TravelBud** is a smart, browser-based AI application that identifies global landmarks from photos and provides instant travel insights, including local food recommendations, navigation, and multi-day budgeting in Rupees.
 
----
-📂 Dataset
-
-- Source: Publicly available landmark image datasets
-
-- Images represent multiple landmark classes
-
-- Dataset split into training and evaluation subsets
+### 🚀 [Live Demo](https://dishachakraborty-11.github.io/Landmark-Detection-ML/)
 
 ---
 
-## 📸 Project Overview
+## ✨ Key Features
+- **Instant AI Recognition:** Powered by **TensorFlow.js** and **MobileNet**, identifying monuments directly in your browser.
+  
+- **Smart TravelBud Chatbot:** An adaptive AI assistant that calculates trip budgets and suggests nearby attractions.
+  
+- **Dynamic Budgeting:** Automatically calculates 2-3 day expenses and converts them to **INR (₹)**.
+  
+- **Local Insights:** Integrated links for top-rated restaurants and Google Maps routes.
+  
+- **Privacy First:** All image processing happens locally on your device; no photos are uploaded to a server.
 
-Landmark detection is an important computer vision task that enables recognition of iconic structures from around the world — such as the **Eiffel Tower**, **Taj Mahal**, and **Statue of Liberty**.
+## 🛠️ Tech Stack
+- **Frontend:** HTML5, CSS3 (Modern Flexbox/Grid), FontAwesome.
+- **Machine Learning:** [TensorFlow.js](https://www.tensorflow.org/js)
+- **Pre-trained Model:** MobileNet v2 (Lightweight and fast for mobile/web).
+- **APIs:** Wikipedia API for real-time landmark summaries.
 
-This model:
-- Preprocesses and augments image data for robust training.  
-- Uses a CNN built with **TensorFlow/Keras** to classify landmarks.  
-- Visualizes training progress and confusion matrix for performance analysis.  
-- Allows easy predictions on custom images.
+## 📸 How to Use
+1. **Upload:** Click the camera icon or the "Upload Landmark" button.
+2. **Analyze:** Wait a second for the AI to scan the image.
+3. **Explore:** View the landmark details, food links, and travel routes.
+4. **Chat:** Ask TravelBud: *"What is the budget for 2 days in rupees?"* or *"What are some places near this?"*
 
----
+## 📂 Project Structure
+```text
+├── index.html      # Main UI and TensorFlow integration
+├── style.css       # Custom Glassmorphism and Responsive UI
+├── script.js      # AI Logic, Chatbot Brain, and Wiki API calls
+└── README.md       # Project Documentation
+```
 
-## 🧠 Tech Stack
+## Screenshots 
+<img width="1920" height="1080" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/d52e19fb-0dee-47de-859f-2fd2d78685ae" />
+<img width="1920" height="1080" alt="Screenshot (52)" src="https://github.com/user-attachments/assets/1b4b4efb-8719-47f9-bf08-d87a000cce7c" />
+<img width="1920" height="1080" alt="Screenshot (53)" src="https://github.com/user-attachments/assets/6d01d874-4238-49cc-9556-f2e8a69416e2" />
+<img width="1920" height="1080" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/e1941538-7d41-41aa-acd0-75943b88f77c" />
 
-| Category | Technologies |
-|-----------|--------------|
-| **Language** | Python |
-| **Libraries/Frameworks** | TensorFlow, Keras, NumPy, Pandas, Matplotlib, OpenCV |
-| **Model Type** | Convolutional Neural Network (CNN) |
-| **Tools** | Jupyter Notebook, Google Colab, Git, GitHub |
+##⚠️ Limitations & Future Improvements
+1. Model Accuracy & Training Data
+The core AI uses the MobileNet v2 model. While fast and lightweight, it was trained on the ImageNet dataset, which means:
 
----
+It may struggle to distinguish between similar-looking stone structures (e.g., misidentifying a specific Triumphal Arch in one city for another).
 
-## 🧩 Project Structure
+It performs best with clear, daylight photos. Low-light or extreme-angle shots may reduce confidence scores.
 
-Landmark-Detection-ML/
-│
-├── data/ # (Placeholder for dataset or instructions)
-│ └── README.md
-│
-├── notebooks/
-│ └── landmark_detection.ipynb # Full EDA + model training
-│
-├── src/
-│ ├── train_model.py # CNN model training script
-│ ├── predict.py # Custom image prediction
-│ ├── utils.py # Visualization & helper functions
-│ └── config.py # Centralized configuration file
-│
-├── models/
-│ └── landmark_model.h5 # Trained model weights
-│
-├── requirements.txt # Dependencies
-├── .gitignore
-└── README.md
+2. Client-Side Processing Power
+Because all AI processing happens on the user's device (client-side) via TensorFlow.js:
 
-yaml
-Copy code
+Users on older smartphones or low-spec laptops might experience a 2–3 second delay while the model loads into the browser's memory.
 
----
+The performance is dependent on the browser's ability to handle WebGL acceleration.
 
-## ⚙️ Setup and Usage
+3. Static Budgeting Logic
+Currently, the TravelBud Chatbot uses a "base-rate" calculation for budgets ($150/day):
 
-### 1️⃣ Clone the Repository
+Limitation: It does not account for real-time inflation, seasonal price spikes (like peak summer in Paris), or luxury vs. budget traveler preferences.
 
-git clone https://github.com/DishaChakraborty-11/Landmark-Detection-ML.git
-cd Landmark-Detection-ML
-2️⃣ Install Dependencies
+Future Fix: Integrating a dedicated Travel Cost API would provide real-time pricing data.
 
-pip install -r requirements.txt
-3️⃣ Prepare Dataset
-Download or create folders like:
+4. Internet Dependency for Details
+While the AI recognizes the landmark offline once the model is loaded:
 
+The Wikipedia summaries and Google Maps links require an active internet connection to fetch the latest descriptions and routes.
 
-data/
- ├── train/
- │   ├── Eiffel_Tower/
- │   └── Taj_Mahal/
- ├── validation/
- │   ├── Eiffel_Tower/
- │   └── Taj_Mahal/
- └── test/
-     └── sample.jpg
-4️⃣ Train the Model
+🛡️ License
+Distributed under the MIT License. See LICENSE for more information.
 
-python src/train_model.py
-5️⃣ Predict on Custom Image
-
-python src/predict.py --image "data/test/sample.jpg"
-📊 Results
-Metric	Result
-
-
-Training Accuracy	~92%
-
-Validation Accuracy	~88%
-
-Model File	models/landmark_model.h5
-
-Example Predictions:
-
-Input Image	Predicted Landmark
-
-< Eiffel Tower
-
-< Taj Mahal
----
-⚠️ Limitations
-
-- Limited dataset diversity
-- Sensitive to lighting and viewpoint variations
-- No cross-dataset evaluation
-
----
-
-👩‍💻 Author
-
-Disha Chakraborty
-B.Tech in Computer Science (AI & ML)
-📍 Kolkata, India
-🌐 GitHub | LinkedIn
-
-
-
+Developed by Disha Chakraborty 🚀
