@@ -55,3 +55,40 @@
                 <h1><i class="fas fa-landmark"></i> Landmark Explorer</h1>
             </div>
             <div style="display:flex;gap:15px;align-items
+
+                <!-- Continuing from where your code cut off -->
+            <input type="file" id="imageUpload" accept="image/*" style="display:none">
+            <label for="imageUpload" class="upload-btn">
+                <i class="fas fa-camera"></i> Upload Image
+            </label>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="upload-hero" id="drop-zone">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h2>Identify Landmarks Instantly</h2>
+            <p>Upload a photo of a monument or landmark to get AI-powered insights</p>
+        </div>
+
+        <!-- Result Section (Hidden by default in your CSS) -->
+        <div id="result">
+            <div class="result-grid">
+                <div class="result-photo">
+                    <img id="preview-img" src="" alt="Landmark Preview">
+                </div>
+                <div class="result-info">
+                    <h2 id="landmark-name">Landmark Name</h2>
+                    <div class="result-section">
+                        <h4><i class="fas fa-info-circle"></i> About</h4>
+                        <p id="landmark-desc">Description will appear here...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script connection is CRITICAL -->
+    <script src="script.js"></script> 
+</body>
+</html>
