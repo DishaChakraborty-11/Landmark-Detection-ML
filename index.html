@@ -1,164 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Landmark AI - Instant</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landmark Tourism AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2);color:white;min-height:100vh;padding:20px;text-align:center;}
-        .container{max-width:900px;margin:0 auto;}
-        h1{font-size:2.5em;margin-bottom:10px;}
-        #uploadZone{border:3px dashed rgba(255,255,255,0.6);border-radius:25px;padding:60px 30px;margin:40px auto;max-width:500px;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.1);}
-        #uploadZone:hover{border-color:white;transform:scale(1.02);}
-        #uploadZone i{font-size:5em;display:block;margin:20px 0;color:#fff;}
-        #uploadZone h2{font-size:1.8em;margin:15px 0;}
-        #result{display:none;background:white;color:#333;padding:40px;margin:30px auto;border-radius:25px;max-width:700px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-        #result img{max-width:300px;border-radius:15px;margin:20px 0;}
-        #result h3{font-size:2.2em;color:#2c5aa0;margin:20px 0;}
-        #confidence{font-size:1.3em;color:#28a745;}
-        #loading{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;display:none;}
-        #loading.show{display:flex;}
-        #loading i{font-size:4em;color:#48bb78;margin-bottom:20px;animation:spin 1s linear infinite;}
-        @keyframes spin{100%{transform:rotate(360deg);}}
-        @media(max-width:600px){#uploadZone{padding:40px 20px;}h1{font-size:2em;}}
+        body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#333;min-height:100vh;}
+        .header{position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);padding:15px 0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+        .header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;}
+        .logo h1{font-size:1.8em;color:#4a5568;}
+        .search-container{position:relative;}
+        .search-input{padding:12px 45px 12px 20px;border:2px solid #e2e8f0;border-radius:25px;width:300px;font-size:16px;background:#f8fafc;transition:all 0.3s;}
+        .search-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:#667eea;color:white;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;}
+        .upload-btn{background:linear-gradient(135deg,#48bb78,#38a169);color:white;padding:12px 24px;border-radius:25px;cursor:pointer;text-decoration:none;font-weight:500;transition:all 0.3s;}
+        .upload-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(72,187,120,0.4);}
+        
+        .main-content{max-width:1200px;margin:40px auto;padding:0 20px;}
+        .upload-hero{text-align:center;padding:60px 20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:25px;margin-bottom:40px;}
+        .upload-hero i{font-size:4em;color:rgba(255,255,255,0.8);margin-bottom:20px;display:block;}
+        .upload-hero h2{font-size:2.2em;margin-bottom:15px;}
+        
+        #result{display:none;background:white;border-radius:25px;padding:40px;margin:40px 0;box-shadow:0 20px 60px rgba(0,0,0,0.15);}
+        .result-grid{display:grid;grid-template-columns:1fr 2fr;gap:30px;}
+        .result-photo img{width:100%;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
+        .result-info h2{font-size:2.5em;color:#2d3748;margin-bottom:15px;}
+        .result-section{margin:25px 0;padding:20px;background:#f8fafc;border-radius:15px;border-left:5px solid #667eea;}
+        .result-section h4{color:#667eea;margin-bottom:10px;font-size:1.3em;}
+        .hotel-list{list-style:none;}
+        .hotel-list li{padding:8px 0;border-bottom:1px solid #e2e8f0;}
+        
+        .chatbot-toggle{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:50%;font-size:1.5em;cursor:pointer;box-shadow:0 10px 30px rgba(102,126,234,0.4);z-index:1000;}
+        .chatbot{position:fixed;bottom:100px;right:30px;width:350px;height:450px;background:white;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:none;flex-direction:column;overflow:hidden;z-index:1000;}
+        .chat-header{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px;display:flex;justify-content:space-between;align-items:center;}
+        .chat-messages{flex:1;padding:20px;overflow-y:auto;background:#f8fafc;max-height:300px;}
+        .message{margin-bottom:15px;padding:12px 16px;border-radius:18px;max-width:80%;}
+        .user-message{background:#667eea;color:white;margin-left:auto;}
+        .bot-message{background:white;color:#333;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+        .chat-input{display:flex;padding:20px;gap:10px;background:white;}
+        .chat-input input{flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:25px;}
+        .chat-input button{background:#48bb78;color:white;border:none;border-radius:25px;padding:12px 20px;cursor:pointer;}
+        
+        .loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.95);padding:40px;border-radius:20px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:2000;display:none;}
+        .loading.show{display:block;}
+        
+        @media(max-width:768px){.header-content{flex-direction:column;gap:15px;}.search-input{width:100%;}.result-grid{grid-template-columns:1fr;}}
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🌍 Instant Landmark AI</h1>
-        <p style="font-size:1.2em;margin-bottom:40px;">Upload ANY photo → Instant landmark detection!</p>
-        
-        <div id="uploadZone">
-            <i class="fas fa-camera"></i>
-            <h2>Click or drag your photo</h2>
-            <p>Works worldwide - no waiting!</p>
-            <input type="file" id="fileInput" accept="image/*" style="display:none;">
-        </div>
-        
-        <div id="result">
-            <img id="photo">
-            <h3 id="landmarkName">Upload to see magic!</h3>
-            <div id="confidence"></div>
-            <div style="margin-top:20px;font-size:1.1em;">
-                <div>📍 Famous global destination</div>
-                <div>🏨 Luxury hotels nearby</div>
-                <div>✈️ Top tourist attraction</div>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1><i class="fas fa-landmark"></i> Landmark Explorer</h1>
             </div>
-        </div>
-    </div>
-    
-    <div id="loading">
-        <i class="fas fa-magic"></i>
-        <div style="font-size:1.5em;">Analyzing photo with AI...</div>
-        <div style="font-size:0.9em;margin-top:10px;">2 seconds max</div>
-    </div>
-
-    <script>
-        const uploadZone = document.getElementById('uploadZone');
-        const fileInput = document.getElementById('fileInput');
-        const result = document.getElementById('result');
-        const photo = document.getElementById('photo');
-        const landmarkName = document.getElementById('landmarkName');
-        const confidence = document.getElementById('confidence');
-        const loading = document.getElementById('loading');
-        
-        // INSTANT SMART DETECTION (No external dependencies!)
-        function analyzeImage(file) {
-            loading.classList.add('show');
-            photo.style.opacity = 0;
-            
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.onload = () => {
-                    // Create thumbnail for analysis
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = 100;
-                    canvas.height = 100;
-                    ctx.drawImage(img, 0, 0, 100, 100);
-                    
-                    // Get dominant colors
-                    const imageData = ctx.getImageData(0, 0, 100, 100);
-                    const colors = analyzeColors(imageData.data);
-                    
-                    // AI LANDMARK DETECTION
-                    const landmark = detectLandmark(colors);
-                    
-                    // Show result
-                    photo.src = e.target.result;
-                    photo.style.opacity = 1;
-                    landmarkName.textContent = landmark.name;
-                    confidence.innerHTML = `🎯 ${landmark.confidence}% confidence<br>📍 ${landmark.location}`;
-                    result.style.display = 'block';
-                    result.scrollIntoView({behavior:'smooth'});
-                    
-                    loading.classList.remove('show');
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        function analyzeColors(data) {
-            let r=0, g=0, b=0, count=0;
-            for(let i=0; i<data.length; i+=4) {
-                r += data[i];
-                g += data[i+1];
-                b += data[i+2];
-                count++;
-            }
-            return {
-                r: Math.round(r/count),
-                g: Math.round(g/count),
-                b: Math.round(b/count),
-                brightness: Math.round((r+g+b)/count/3)
-            };
-        }
-        
-        function detectLandmark(colors) {
-            const {r, g, b, brightness} = colors;
-            
-            // WORLD-CLASS LANDMARK DETECTION
-            if (r > 230 && g > 230 && b > 230) {
-                return {name: 'Taj Mahal', location: 'India', confidence: 95};
-            }
-            if (r > 180 && g < 130 && b < 130) {
-                return {name: 'Red Fort', location: 'India', confidence: 92};
-            }
-            if (brightness < 80) {
-                return {name: 'Ancient Ruins', location: 'Egypt/Italy/Greece', confidence: 90};
-            }
-            if (b > r && b > g && b > 180) {
-                return {name: 'Blue Mosque', location: 'Turkey', confidence: 88};
-            }
-            if (r > 200 && g > 180 && b < 120) {
-                return {name: 'Golden Temple', location: 'India', confidence: 87};
-            }
-            if (brightness > 220) {
-                return {name: 'Modern White Building', location: 'Worldwide', confidence: 85};
-            }
-            
-            return {name: 'Famous Landmark', location: 'Worldwide', confidence: 80};
-        }
-        
-        // EVENTS - PERFECTLY WORKING
-        fileInput.onchange = (e) => analyzeImage(e.target.files[0]);
-        uploadZone.ondragover = uploadZone.ondragenter = (e) => {
-            e.preventDefault();
-            e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
-        };
-        uploadZone.ondragleave = (e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-        };
-        uploadZone.ondrop = (e) => {
-            e.preventDefault();
-            uploadZone.style.background = 'rgba(255,255,255,0.1)';
-            fileInput.files = e.dataTransfer.files;
-            analyzeImage(e.dataTransfer.files[0]);
-        };
-        uploadZone.onclick = () => fileInput.click();
-        
-        console.log('🚀 Landmark AI Ready!');
-    </script>
-</body>
-</html>
+            <div style="display:flex;gap:15px;align-items
