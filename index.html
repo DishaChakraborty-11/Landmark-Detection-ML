@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landmark Explorer AI</title>
+    <title>Landmark Explorer AI - TravelBud</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <!-- TensorFlow.js and MobileNet AI Model -->
@@ -59,25 +59,24 @@
 
     <!-- Chatbot Toggle Button -->
     <button class="chatbot-toggle" onclick="toggleChat()">
-        <i class="fas fa-comment-dots"></i>
+        <i class="fas fa-robot"></i>
     </button>
 
     <!-- Chatbot Window -->
     <div id="chatbotContainer" class="chatbot-container">
         <div class="chatbot-header">
-            <span>Travel Assistant</span>
+            <span><i class="fas fa-robot"></i> TravelBud</span>
             <button onclick="toggleChat()" class="close-chat">&times;</button>
         </div>
         <div id="chatMessages" class="chatbot-messages">
-            <div class="message bot-message">Hello! Upload a landmark and I'll help you plan your visit!</div>
+            <div class="message bot-message">Hello! I'm TravelBud. Upload a landmark and I'll help you plan everything!</div>
         </div>
         <div class="chatbot-input">
-            <input type="text" id="chatInput" placeholder="Ask a question...">
+            <input type="text" id="chatInput" placeholder="Ask TravelBud...">
             <button id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <!-- JS Scripts ALWAYS at the very bottom -->
     <script src="script.js"></script>
 </body>
 </html>
