@@ -58,5 +58,24 @@
     </div>
 
     <script src="script.js"></script>
+    <!-- Chatbot Toggle Button -->
+<button class="chatbot-toggle" onclick="toggleChat()">
+    <i class="fas fa-comment-dots"></i>
+</button>
+
+<!-- Chatbot Window -->
+<div id="chatbotContainer" class="chatbot-container">
+    <div class="chatbot-header">
+        <span>Travel Assistant</span>
+        <button onclick="toggleChat()" class="close-chat">&times;</button>
+    </div>
+    <div id="chatMessages" class="chatbot-messages">
+        <div class="message bot-message">Hello! Upload a landmark and I'll help you plan your visit!</div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="chatInput" placeholder="Ask a question...">
+        <button id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
 </body>
 </html>
