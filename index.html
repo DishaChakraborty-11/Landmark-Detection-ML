@@ -3,92 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landmark Tourism AI</title>
+    <title>Landmark Explorer AI</title>
+    
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#333;min-height:100vh;}
-        .header{position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);padding:15px 0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
-        .header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;}
-        .logo h1{font-size:1.8em;color:#4a5568;}
-        .search-container{position:relative;}
-        .search-input{padding:12px 45px 12px 20px;border:2px solid #e2e8f0;border-radius:25px;width:300px;font-size:16px;background:#f8fafc;transition:all 0.3s;}
-        .search-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:#667eea;color:white;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;}
-        .upload-btn{background:linear-gradient(135deg,#48bb78,#38a169);color:white;padding:12px 24px;border-radius:25px;cursor:pointer;text-decoration:none;font-weight:500;transition:all 0.3s;}
-        .upload-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(72,187,120,0.4);}
-        
-        .main-content{max-width:1200px;margin:40px auto;padding:0 20px;}
-        .upload-hero{text-align:center;padding:60px 20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:25px;margin-bottom:40px;}
-        .upload-hero i{font-size:4em;color:rgba(255,255,255,0.8);margin-bottom:20px;display:block;}
-        .upload-hero h2{font-size:2.2em;margin-bottom:15px;}
-        
-        #result{display:none;background:white;border-radius:25px;padding:40px;margin:40px 0;box-shadow:0 20px 60px rgba(0,0,0,0.15);}
-        .result-grid{display:grid;grid-template-columns:1fr 2fr;gap:30px;}
-        .result-photo img{width:100%;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,0.2);}
-        .result-info h2{font-size:2.5em;color:#2d3748;margin-bottom:15px;}
-        .result-section{margin:25px 0;padding:20px;background:#f8fafc;border-radius:15px;border-left:5px solid #667eea;}
-        .result-section h4{color:#667eea;margin-bottom:10px;font-size:1.3em;}
-        .hotel-list{list-style:none;}
-        .hotel-list li{padding:8px 0;border-bottom:1px solid #e2e8f0;}
-        
-        .chatbot-toggle{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:50%;font-size:1.5em;cursor:pointer;box-shadow:0 10px 30px rgba(102,126,234,0.4);z-index:1000;}
-        .chatbot{position:fixed;bottom:100px;right:30px;width:350px;height:450px;background:white;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:none;flex-direction:column;overflow:hidden;z-index:1000;}
-        .chat-header{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px;display:flex;justify-content:space-between;align-items:center;}
-        .chat-messages{flex:1;padding:20px;overflow-y:auto;background:#f8fafc;max-height:300px;}
-        .message{margin-bottom:15px;padding:12px 16px;border-radius:18px;max-width:80%;}
-        .user-message{background:#667eea;color:white;margin-left:auto;}
-        .bot-message{background:white;color:#333;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-        .chat-input{display:flex;padding:20px;gap:10px;background:white;}
-        .chat-input input{flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:25px;}
-        .chat-input button{background:#48bb78;color:white;border:none;border-radius:25px;padding:12px 20px;cursor:pointer;}
-        
-        .loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.95);padding:40px;border-radius:20px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:2000;display:none;}
-        .loading.show{display:block;}
-        
-        @media(max-width:768px){.header-content{flex-direction:column;gap:15px;}.search-input{width:100%;}.result-grid{grid-template-columns:1fr;}}
-    </style>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- TensorFlow.js - REQUIRED for script.js to work -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@latest"></script>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <h1><i class="fas fa-landmark"></i> Landmark Explorer</h1>
-            </div>
-            <div style="display:flex;gap:15px;align-items
 
-                <!-- Continuing from where your code cut off -->
-            <input type="file" id="imageUpload" accept="image/*" style="display:none">
-            <label for="imageUpload" class="upload-btn">
-                <i class="fas fa-camera"></i> Upload Image
-            </label>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-landmark"></i> Landmark Explorer</h1>
+            <div class="search-upload-container">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search landmarks...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="upload-container">
+                    <!-- Hidden file input -->
+                    <input type="file" id="imageUpload" accept="image/*" style="display:none">
+                    <label for="imageUpload" class="upload-btn">
+                        <i class="fas fa-camera"></i> Upload Image
+                    </label>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="main-content">
-        <div class="upload-hero" id="drop-zone">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <h2>Identify Landmarks Instantly</h2>
-            <p>Upload a photo of a monument or landmark to get AI-powered insights</p>
-        </div>
-
-        <!-- Result Section (Hidden by default in your CSS) -->
-        <div id="result">
-            <div class="result-grid">
-                <div class="result-photo">
-                    <img id="preview-img" src="" alt="Landmark Preview">
-                </div>
-                <div class="result-info">
-                    <h2 id="landmark-name">Landmark Name</h2>
-                    <div class="result-section">
-                        <h4><i class="fas fa-info-circle"></i> About</h4>
-                        <p id="landmark-desc">Description will appear here...</p>
+    <main class="container">
+        <!-- Detection Result Section (Hidden by default) -->
+        <section id="detectionResult" class="detection-result" style="display: none;">
+            <div class="detection-card">
+                <img id="detectedImage" src="" alt="Detected Landmark" class="detected-image">
+                <div class="detection-info">
+                    <h3 id="detectedName">Landmark Name</h3>
+                    <div id="detectionDetails">
+                        <!-- Confidence and details injected by JS -->
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Hero / Upload Zone -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>Discover the World with AI</h2>
+                <p>Upload a photo of any monument to get instant information.</p>
+                <div id="uploadZone" class="upload-zone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & Drop or Click to Upload</p>
+                    <small style="color: rgba(255,255,255,0.7)">Supported: JPG, PNG</small>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Script connection is CRITICAL -->
-    <script src="script.js"></script> 
+    <!-- Chatbot UI -->
+    <button class="chatbot-toggle" id="chatToggle">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+    
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <span>AI Travel Assistant</span>
+            <button class="close-chat" id="closeChat">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="message user-message">Hi! How can I help you today?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Ask about a place...">
+            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <div>AI is analyzing the landmark...</div>
+    </div>
+
+    <!-- Your Logic -->
+    <script src="script.js"></script>
 </body>
 </html>
