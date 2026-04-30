@@ -43,35 +43,46 @@
 <img width="1916" height="906" alt="Screenshot (53)" src="https://github.com/user-attachments/assets/2e884a48-888a-469d-842a-d537629c3d12" />
 <img width="1920" height="931" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/aac0884d-ace2-4b51-9f05-0c7c383e05a8" />
 
+---
 
 ##⚠️ Limitations & Future Improvements
+
 1. Model Accuracy & Training Data
-The core AI uses the MobileNet v2 model. While fast and lightweight, it was trained on the ImageNet dataset, which means:
 
-It may struggle to distinguish between similar-looking stone structures (e.g., misidentifying a specific Triumphal Arch in one city for another).
+-The core AI uses the MobileNet v2 model. While fast and lightweight, it was trained on the ImageNet dataset, which means:
 
-It performs best with clear, daylight photos. Low-light or extreme-angle shots may reduce confidence scores.
+-It may struggle to distinguish between similar-looking stone structures (e.g., misidentifying a specific Triumphal Arch in one city for another).
+
+-It performs best with clear, daylight photos. Low-light or extreme-angle shots may reduce confidence scores.
 
 2. Client-Side Processing Power
-Because all AI processing happens on the user's device (client-side) via TensorFlow.js:
+   
+-Because all AI processing happens on the user's device (client-side) via TensorFlow.js:
 
-Users on older smartphones or low-spec laptops might experience a 2–3 second delay while the model loads into the browser's memory.
+-Users on older smartphones or low-spec laptops might experience a 2–3 second delay while the model loads into the browser's memory.
 
-The performance is dependent on the browser's ability to handle WebGL acceleration.
+-The performance is dependent on the browser's ability to handle WebGL acceleration.
 
 3. Static Budgeting Logic
-Currently, the TravelBud Chatbot uses a "base-rate" calculation for budgets ($150/day):
+   
+-Currently, the TravelBud Chatbot uses a "base-rate" calculation for budgets ($150/day):
 
-Limitation: It does not account for real-time inflation, seasonal price spikes (like peak summer in Paris), or luxury vs. budget traveler preferences.
+-Limitation: It does not account for real-time inflation, seasonal price spikes (like peak summer in Paris), or luxury vs. budget traveler preferences.
 
-Future Fix: Integrating a dedicated Travel Cost API would provide real-time pricing data.
+-Future Fix: Integrating a dedicated Travel Cost API would provide real-time pricing data.
 
 4. Internet Dependency for Details
-While the AI recognizes the landmark offline once the model is loaded:
+   
+-While the AI recognizes the landmark offline once the model is loaded:
 
-The Wikipedia summaries and Google Maps links require an active internet connection to fetch the latest descriptions and routes.
+-The Wikipedia summaries and Google Maps links require an active internet connection to fetch the latest descriptions and routes.
+
+---
 
 🛡️ License
+
 Distributed under the MIT License. See LICENSE for more information.
+
+---
 
 Developed by Disha Chakraborty 🚀
